@@ -54,9 +54,8 @@ def seletor_puzzle(posicoes_arvores: list):
 
 
 
-def draw_grid(posicoes_arvores: list):
-    linhas = 6
-  
+def draw_grid(posicoes_arvores: list,linhas: int):
+
     for colunas_ocupadas in posicoes_arvores:
         linha_atual=[]
 
@@ -71,11 +70,11 @@ def draw_grid(posicoes_arvores: list):
 
 
 
-
+tamanho_puzzle = 6
 
 if __name__  =="__main__":
     posicoes_arvores = get_posicoes_arvores("db_arvores.txt")
     puzzle_selecionado = seletor_puzzle(posicoes_arvores)
-    draw_grid(puzzle_selecionado)
+    draw_grid(puzzle_selecionado, linhas=tamanho_puzzle)
 
 
