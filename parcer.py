@@ -11,7 +11,7 @@ def criar_parser():
 
     inicio.add_argument("--carregar",metavar="ARQUIVO",help="Carrega uma partida diretamente de um arquivo")
 
-    parser.add_argument("--autosave",metavar="ARQUIVO",default="autosave.txt",help="Arquivo de salvamento automático")
+    parser.add_argument("--autosave",metavar="ARQUIVO",default="autosave",help="Nome do arquivo de salvamento automático")
 
     parser.add_argument("--tamanho",type=int,default=6,help="Tamanho do tabuleiro (padrão: 6)")
 

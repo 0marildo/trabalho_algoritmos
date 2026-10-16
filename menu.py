@@ -1,6 +1,7 @@
 
 FICHEIRO_SAVE = "game_save.txt"
 FICHEIRO_HISTORICO = "historico.txt"
+import file_handler.salva_carregar_jogo as arquivos_save
 
 
 def limpar_console():
@@ -32,22 +33,64 @@ def menu_principal():
 def menu_pause():
     print("\n========== MENU DE PAUSA ==========")
     print("1. Continuar partida")
-    print("2. Salvar partida")
+    print("2. Iniciar novo jogo")
     print("3. Carregar partida")
-    print("4. Voltar ao menu principal")
-    print("5. Sair do jogo")
+    print("4. Salvar partida")
+    print("5. Voltar ao menu principal")
+    print("6. Sair do jogo")
 
-    opcao = pedir_opcao("Escolha: ", ["1", "2", "3", "4", "5"])
+    opcao = pedir_opcao("Escolha: ", ["1", "2", "3", "4", "5", "6"])
 
-    if opcao in ("2", "3"):
-        nome = input(f"Nome do arquivo [{FICHEIRO_SAVE}]: ").strip()
-
-        if not nome:
-            nome = FICHEIRO_SAVE
-
+    if opcao in ("3", "4"):
+        nome = menu_arquivos("carregar" if opcao == "3" else "salvar")
         return opcao, nome
 
     return opcao, None
+
+
+def menu_arquivos(acao):
+    while True:
+        limpar_console()
+        print("========== ARQUIVOS DE JOGO ==========")
+        saves = arquivos_save.listar_saves()
+        if saves:
+            for indice, nome in enumerate(saves, 1):
+                print(f"{indice}. {nome}")
+        else:
+            print("Nenhum save encontrado.")
+
+        if acao == "salvar":
+            print("N. Criar save com outro nome")
+        print("0. Voltar")
+        escolha = input("Escolha um save ou ação: ").strip()
+
+        if escolha == "0":
+            return None
+
+        if acao == "carregar":
+            if escolha.isdigit() and 1 <= int(escolha) <= len(saves):
+                return saves[int(escolha) - 1]
+            print("Escolha inválida.")
+            input("Prima ENTER para continuar...")
+        else:
+            if escolha.upper() == "N":
+                nome = input("Nome do novo save, sem extensão: ").strip()
+            elif escolha.isdigit() and 1 <= int(escolha) <= len(saves):
+                nome = saves[int(escolha) - 1]
+            else:
+                print("Escolha inválida.")
+                input("Prima ENTER para continuar...")
+                continue
+
+            if not nome:
+                continue
+            if arquivos_save.save_existe(nome):
+                confirmar = input(
+                    "Esse arquivo existe e será sobrescrito. Confirmar? (S/N): "
+                ).strip().upper()
+                if confirmar != "S":
+                    continue
+            return nome
 
 
 def mostrar_regras():
