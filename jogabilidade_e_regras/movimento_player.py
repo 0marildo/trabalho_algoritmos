@@ -51,7 +51,7 @@ def cursor(arvores,tamanho_grid: int, tendas_iniciais=None) -> list:
         if tecla in ('\x00', '\xe0'):
             tecla = msvcrt.getwch()
 
-            posicao_cursor = movimento_cursor(posicao_cursor,tamanho_grid,tecla)
+            posicao_cursor = movimento_cursor(posicao_cursor,tamanho_grid)
             jogadas+=1
         elif colocar_tenda(tecla):
             if posicao_cursor not in tendas:
@@ -60,7 +60,7 @@ def cursor(arvores,tamanho_grid: int, tendas_iniciais=None) -> list:
                 tendas.remove(posicao_cursor)
         elif regras_jogo.tenda_valida(posicao_cursor,arvores,tendas,tamanho_grid):
             tendas.append(posicao_cursor)
-            salvar_automatico(arvores,tendas)
+            salvar_automatico(arvores,tendas,tamanho_grid,jogadas,posicao_cursor,"autosave.txt")
         else:
             print('nao pode colocar uma tenda aqui')
     return tendas,jogadas

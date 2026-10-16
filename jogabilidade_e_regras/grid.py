@@ -1,4 +1,3 @@
-#criação de um grid, a parte mais importante e fundamento de tudo
 def get_posicoes_arvores(nome_arquivo_db):
     arquivo_db = open(nome_arquivo_db)
     posicoes_raw = []
@@ -70,10 +69,6 @@ def draw_grid(posicoes_arvores: list, linhas: int, posicoes_tendas=None):
     return linhas_puzzle
 
 
-tamanho_puzzle = 6
 
-if __name__=="__main__":
-    posicoes_arvores = get_posicoes_arvores('db_arvores.txt')
-    puzzle_selecionado = seletor_puzzle(posicoes_arvores)
-    draw_grid(puzzle_selecionado,6,[(1,2)])
+
 
