@@ -45,35 +45,33 @@ def seletor_puzzle(posicoes_arvores: list):
 
     return puzzles[selecao_puzzle]            
 
-    
+from movimento_player import cursor
 
+def draw_grid(posicoes_arvores: list,linhas: int,posicoes_tendas):
+    if posicoes_tendas is None:
+        posicoes_tendas=[]
+    linhas_puzzle = []
+    for i, colunas_ocupadas in enumerate(posicoes_arvores):
+        linha_atual = []
 
-
-
-
-
-
-
-def draw_grid(posicoes_arvores: list,linhas: int):
-
-    for colunas_ocupadas in posicoes_arvores:
-        linha_atual=[]
-
-        for c in range(1,linhas+1):
-            if c in colunas_ocupadas:
+        for c in range(1, linhas + 1):
+            if (i, c - 1) in posicoes_tendas:
+                linha_atual.append('T')
+            elif c in colunas_ocupadas:
                 linha_atual.append('A')
             else:
                 linha_atual.append('-')
 
-
+        linhas_puzzle.extend(linha_atual)
         print("".join(linha_atual))
 
+    return linhas_puzzle
 
 
 tamanho_puzzle = 6
 
-if __name__  =="__main__":
-    posicoes_arvores = get_posicoes_arvores("db_arvores.txt")
+if __name__=="__main__":
+    posicoes_arvores = get_posicoes_arvores('db_arvores.txt')
     puzzle_selecionado = seletor_puzzle(posicoes_arvores)
-    draw_grid(puzzle_selecionado, linhas=tamanho_puzzle)
+    draw_grid(puzzle_selecionado,6,[(1,2)])
 
