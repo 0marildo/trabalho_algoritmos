@@ -61,13 +61,7 @@ def carregar_jogo(nome_arquivo="game_save"):
     linhas_arquivo = arquivo.readlines()
     arquivo.close()
 
-    dados = {
-        "puzzle": [],
-        "tendas": [],
-        "tamanho_puzzle": 0,
-        "jogadas": 0,
-        "posicao_cursor": (0, 0)
-    }
+    dados = {"puzzle": [],"tendas": [],"tamanho_puzzle": 0,"jogadas": 0,"posicao_cursor": (0, 0)}
     secao_atual = ""
 
     for linha in linhas_arquivo:

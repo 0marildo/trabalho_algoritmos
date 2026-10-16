@@ -38,7 +38,6 @@ def win(arvores: list, tendas: list, tamanho_grid: int = 6) -> bool:
 
     if len(tendas) != numero_arvores:
         return False
-
     if len(set(tendas)) != len(tendas):
         return False
     for linha, coluna in tendas:
