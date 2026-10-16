@@ -1,5 +1,5 @@
 import msvcrt
-
+from file_handler.salva_carregar_jogo import salvar_automatico
 def movimento_cursor(posicao_atual:tuple, tamanho_grid) -> tuple:
 
     tecla_especial = msvcrt.getwch()
@@ -34,30 +34,33 @@ def movimento_cursor(posicao_atual:tuple, tamanho_grid) -> tuple:
 
     return posicao_atual
 
-def colocar_tenda(tecla: str) -> bool:
-    
+def colocar_tenda(tecla: str) -> bool:    
     return tecla == '\r'
 
-    
-
-def cursor(tamanho_grid: int) -> list:
+import jogabilidade_e_regras.regras_jogo as regras_jogo
+def cursor(arvores,tamanho_grid: int, tendas_iniciais=None) -> list:
     posicao_cursor = (0, 0)
-    tendas = []
-
+    tendas = list(tendas_iniciais or [])
+    jogadas = 0
     while True:
         tecla = msvcrt.getwch()
+
         if tecla in ('q', 'Q'):
             break
 
         if tecla in ('\x00', '\xe0'):
             tecla = msvcrt.getwch()
 
-            posicao_cursor = movimento_cursor(
-                posicao_cursor, tamanho_grid, tecla
-            )
-
+            posicao_cursor = movimento_cursor(posicao_cursor,tamanho_grid,tecla)
+            jogadas+=1
         elif colocar_tenda(tecla):
             if posicao_cursor not in tendas:
                 tendas.append(posicao_cursor)
-
-    return tendas
+            else:
+                tendas.remove(posicao_cursor)
+        elif regras_jogo.tenda_valida(posicao_cursor,arvores,tendas,tamanho_grid):
+            tendas.append(posicao_cursor)
+            salvar_automatico(arvores,tendas)
+        else:
+            print('nao pode colocar uma tenda aqui')
+    return tendas,jogadas

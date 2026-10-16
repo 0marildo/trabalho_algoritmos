@@ -1,14 +1,13 @@
-from grid import puzzle_selecionado,tamanho_puzzle
-from movimento_player import cursor
+from jogabilidade_e_regras.grid import puzzle_selecionado,tamanho_puzzle
+from jogabilidade_e_regras.movimento_player import cursor
 
 
 
 
 
-def salvar_jogo()-> None:
-    tendas = cursor(tamanho_puzzle)
+def salvar_jogo(puzzle_selecionado, tendas, nome_arquivo="game save"):
+    arquivo = open(nome_arquivo, "w")
 
-    arquivo = open('jogo salvo', 'w')
     arquivo.write("PUZZLE\n")
 
     for linha in puzzle_selecionado:
@@ -22,18 +21,27 @@ def salvar_jogo()-> None:
     for linha, coluna in tendas:
         arquivo.write(f"{linha},{coluna}\n")
 
+    dicionario_pertinente = {'puzzle':puzzle_selecionado, 'posicao tendas': tendas}
     arquivo.close()
+    return dicionario_pertinente
 
-def carregar_jogo(nome_arquivo: str):
-    arquivo_carregado = open(nome_arquivo,'r')
-    puzzle =[]
-    tenda = []
+def salvar_automatico(puzzle_selecionado, tendas):
+    salvar_jogo(puzzle_selecionado, tendas, "autosave.txt")
+
+
+def carregar_jogo(nome_arquivo):
+    arquivo = open(nome_arquivo, "r")
+
+    puzzle = []
+    tendas = []
     secao_atual = None
-    for linha in arquivo_carregado:
+
+    for linha in arquivo:
         linha = linha.strip()
+
         if linha == "PUZZLE":
-                secao_atual = "puzzle"
-                continue
+            secao_atual = "puzzle"
+            continue
 
         elif linha == "TENDAS":
             secao_atual = "tendas"
@@ -49,10 +57,8 @@ def carregar_jogo(nome_arquivo: str):
 
         elif secao_atual == "tendas":
             linha, coluna = map(int, linha.split(","))
-            tenda.append((linha, coluna))
+            tendas.append((linha, coluna))
 
-    return puzzle,tenda
+    arquivo.close()
 
-
-    
-    
+    return puzzle, tendas

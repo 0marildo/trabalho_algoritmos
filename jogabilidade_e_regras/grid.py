@@ -45,24 +45,26 @@ def seletor_puzzle(posicoes_arvores: list):
 
     return puzzles[selecao_puzzle]            
 
-from movimento_player import cursor
-
-def draw_grid(posicoes_arvores: list,linhas: int,posicoes_tendas):
+def draw_grid(posicoes_arvores: list, linhas: int, posicoes_tendas=None):
     if posicoes_tendas is None:
-        posicoes_tendas=[]
+        posicoes_tendas = []
+
     linhas_puzzle = []
+
     for i, colunas_ocupadas in enumerate(posicoes_arvores):
         linha_atual = []
 
         for c in range(1, linhas + 1):
-            if (i, c - 1) in posicoes_tendas:
+            posicao = (i, c - 1)
+
+            if posicao in posicoes_tendas:
                 linha_atual.append('T')
             elif c in colunas_ocupadas:
                 linha_atual.append('A')
             else:
                 linha_atual.append('-')
 
-        linhas_puzzle.extend(linha_atual)
+        linhas_puzzle.append(linha_atual)
         print("".join(linha_atual))
 
     return linhas_puzzle
