@@ -75,4 +75,3 @@ if __name__=="__main__":
     puzzle_selecionado = seletor_puzzle(posicoes_arvores)
     draw_grid(puzzle_selecionado,6,[(1,2)])
 
-
